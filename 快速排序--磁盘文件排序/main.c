@@ -82,11 +82,17 @@ void quick_disk(FILE *fp, int count)
 //文件中结构体排序函数---上面函数涉及参数少
 void qs_disk(FILE *fp, int left, int right)
 {
-	long int i, j;
+	long int i, j, a;
 	char x[30];
 	i = left;
 	j = right;
-
+	/*for (a = i; a <= j; i++)
+	{
+		struct data *p;
+		p = get_data(fp, a);
+		print_data(p);
+		printf("\n");
+	}*/
 	//快速排序，选择中间一个值做key，两边开始比较交换
 	//运用递归，结束条件，排序的只有一个元素
 	if (i == j)
@@ -107,7 +113,7 @@ void qs_disk(FILE *fp, int left, int right)
 			i++;
 			j--;
 		}
-	} while (i <= j);
+	} while (i < j);
 
 	qs_disk(fp, left, j);
 	qs_disk(fp, i, right);
