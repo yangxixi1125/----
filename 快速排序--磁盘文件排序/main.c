@@ -33,13 +33,13 @@ void main(void)
 	int i;
 	FILE *fp = NULL;
 	//读写生成文本文件
-	fopen_s(fp, "datalist.txt", "w+");
+	fopen_s(&fp, "datalist.txt", "w+");
 	if (fp == NULL)
 	{
 		printf("\n打开文件失败");
 		exit(0);
 	}
-	printf("\n将未排序数据写入文件");
+	printf("\n将未排序数据写入文件\n");
 	fwrite(addrs, sizeof(addrs), 1, fp);
 	//打印文件中的数组
 	for (i = 0; i < NUM; i++)
@@ -51,7 +51,7 @@ void main(void)
 	}
 	fclose(fp);
 	//二进制方式打开文件
-	fopen_s(fp, "datalist.txt", "rb+");
+	fopen_s(&fp, "datalist.txt", "rb+");
 	if (fp  == NULL)
 	{
 		printf("\n不能以读写方式打开文件");
@@ -93,7 +93,7 @@ void qs_disk(FILE *fp, int left, int right)
 		return;
 	strcpy_s(x, sizeof(info), get_name(fp, (long)(i + j) / 2));
 	//两边比较，找到需要交换的元素。最终左边全是小于等于key,右边全是大于等于key。
-	//i,j值有四种情况;j指向小于key的值，当i=j-1时，i指向大于等于key值，交换后i-j=1；；；当i=j-1时，i指向小于key值，执行后i-j=1。
+	//i,j值有三种情况;j指向小于key的值，当i=j-1时，i指向大于等于key值，交换后i-j=1；；；当i=j-1时，i指向小于key值，执行后i-j=1。
 	//                j指向大于等于key值，当i=j-1时，i指向大于等于key值，i不变j减小，最后i-j=1；；；当i=j-1时，i指向小于key值，i=j，j减小，最后i-j=1。
 	do
 	{
@@ -107,7 +107,7 @@ void qs_disk(FILE *fp, int left, int right)
 			i++;
 			j--;
 		}
-	} while (i < j);
+	} while (i <= j);
 
 	qs_disk(fp, left, j);
 	qs_disk(fp, i, right);
